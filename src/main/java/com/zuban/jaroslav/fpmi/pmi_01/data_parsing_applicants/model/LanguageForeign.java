@@ -2,6 +2,8 @@ package com.zuban.jaroslav.fpmi.pmi_01.data_parsing_applicants.model;
 
 import jakarta.persistence.*;
 
+import java.util.List;
+
 @Entity
 @Table(name = "language_foreign")
 public class LanguageForeign {
@@ -9,34 +11,37 @@ public class LanguageForeign {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
 
-    private Language language;
-    private Level level;
+    @OneToMany
+    @JoinColumn(name = "language_id", referencedColumnName = "id")
+    private List<Language> language;
+
+    @OneToMany
+    @JoinColumn(name = "language_level_id", referencedColumnName = "id")
+    private List<Level> level;
+
+    @ManyToOne
+    private Information information;
 
     public LanguageForeign() {
-    }
-
-    public LanguageForeign(Language language, Level level) {
-        this.language = language;
-        this.level = level;
     }
 
     public int getId() {
         return id;
     }
 
-    public Language getLanguage() {
+    public List<Language> getLanguage() {
         return language;
     }
 
-    public void setLanguage(Language language) {
+    public void setLanguage(List<Language> language) {
         this.language = language;
     }
 
-    public Level getLevel() {
+    public List<Level> getLevel() {
         return level;
     }
 
-    public void setLevel(Level level) {
+    public void setLevel(List<Level> level) {
         this.level = level;
     }
 }

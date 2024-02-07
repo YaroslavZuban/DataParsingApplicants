@@ -12,6 +12,9 @@ public class Gender {
     @Column(name = "type")
     private String type;
 
+    @OneToOne(mappedBy = "gender")
+    private PersonalData personalData;
+
     public Gender() {
     }
 

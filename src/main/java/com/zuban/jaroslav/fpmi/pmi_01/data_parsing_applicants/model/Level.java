@@ -12,6 +12,11 @@ public class Level {
     @Column(name = "knowledge_level")
     private String knowledgeLevel;
 
+    @ManyToOne
+    private LanguageForeign languageForeign;
+
+
+
     public Level() {
     }
 

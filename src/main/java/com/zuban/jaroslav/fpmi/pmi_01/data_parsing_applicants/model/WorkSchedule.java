@@ -2,6 +2,8 @@ package com.zuban.jaroslav.fpmi.pmi_01.data_parsing_applicants.model;
 
 import jakarta.persistence.*;
 
+import java.util.List;
+
 @Entity
 @Table(name = "work_schedule")
 public class WorkSchedule {
@@ -11,6 +13,9 @@ public class WorkSchedule {
 
     @Column(name = "work_type")
     private String workType;
+
+    @ManyToMany(mappedBy = "workSchedule")
+    private List<PersonalData> personalData;
 
     public WorkSchedule() {
     }

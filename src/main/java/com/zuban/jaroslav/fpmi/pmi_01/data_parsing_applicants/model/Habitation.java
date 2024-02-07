@@ -12,6 +12,9 @@ public class Habitation {
     @Column(name = "city")
     private String city;
 
+    @OneToOne(mappedBy = "habitation")
+    private PersonalData personalData;
+
     public Habitation() {
     }
 

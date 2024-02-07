@@ -2,6 +2,8 @@ package com.zuban.jaroslav.fpmi.pmi_01.data_parsing_applicants.model;
 
 import jakarta.persistence.*;
 
+import java.util.List;
+
 @Entity
 @Table(name = "citizenship_type")
 public class CitizenshipType {
@@ -11,6 +13,9 @@ public class CitizenshipType {
 
     @Column(name = "name")
     private String name;
+
+    @ManyToMany(mappedBy = "citizenshipType")
+    private List<PersonalData> personalDataList;
 
     public CitizenshipType() {
     }

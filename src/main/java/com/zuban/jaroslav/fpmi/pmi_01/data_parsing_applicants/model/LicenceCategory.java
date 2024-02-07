@@ -12,6 +12,9 @@ public class LicenceCategory {
     @Column(name = "category")
     private String category;
 
+    @ManyToOne
+    private Information information;
+
     public LicenceCategory() {
     }
 

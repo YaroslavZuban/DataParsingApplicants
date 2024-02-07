@@ -12,6 +12,9 @@ public class Language {
     @Column(name = "name")
     private String name;
 
+    @ManyToOne
+    private LanguageForeign languageForeign;
+
     public Language() {
     }
 

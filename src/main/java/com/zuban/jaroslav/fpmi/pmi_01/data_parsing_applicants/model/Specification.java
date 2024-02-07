@@ -3,6 +3,7 @@ package com.zuban.jaroslav.fpmi.pmi_01.data_parsing_applicants.model;
 import jakarta.persistence.*;
 
 import javax.annotation.processing.Generated;
+import java.util.List;
 
 @Entity
 @Table(name = "specification")
@@ -10,8 +11,6 @@ public class Specification {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
-
-    private EducationType educationType;
 
     @Column(name = "ending")
     private int ending;
@@ -22,11 +21,17 @@ public class Specification {
     @Column(name = "direction")
     private String direction;
 
+    @OneToOne
+    @JoinColumn(name = "education_type_id", referencedColumnName = "id")
+    private EducationType educationType;
+
+    @ManyToMany(mappedBy = "specifications")
+    private List<PersonalData> personalData;
+
     public Specification() {
     }
 
-    public Specification(EducationType educationType, int ending, String educational_institution, String direction) {
-        this.educationType = educationType;
+    public Specification(int ending, String educational_institution, String direction) {
         this.ending = ending;
         this.educational_institution = educational_institution;
         this.direction = direction;
@@ -34,14 +39,6 @@ public class Specification {
 
     public int getId() {
         return id;
-    }
-
-    public EducationType getEducationType() {
-        return educationType;
-    }
-
-    public void setEducationType(EducationType educationType) {
-        this.educationType = educationType;
     }
 
     public int getEnding() {

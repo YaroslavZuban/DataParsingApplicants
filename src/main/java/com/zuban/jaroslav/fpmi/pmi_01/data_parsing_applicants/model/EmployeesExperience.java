@@ -2,6 +2,8 @@ package com.zuban.jaroslav.fpmi.pmi_01.data_parsing_applicants.model;
 
 import jakarta.persistence.*;
 
+import java.util.List;
+
 @Entity
 @Table(name = "employees_experience")
 public class EmployeesExperience {
@@ -23,6 +25,13 @@ public class EmployeesExperience {
 
     @Column(name = "dismissal")
     private String dismissal;
+
+    @ManyToMany
+    @JoinTable(
+            name = "work",
+            joinColumns = @JoinColumn(name = "employees_experience_id "),
+            inverseJoinColumns = @JoinColumn(name = "personal_data_id"))
+    private List<PersonalData> personalDataList;
 
     public EmployeesExperience() {
     }

@@ -3,7 +3,7 @@ package com.zuban.jaroslav.fpmi.pmi_01.data_parsing_applicants.model;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "")
+@Table(name = "education_type")
 public class EducationType {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -11,6 +11,9 @@ public class EducationType {
 
     @Column(name = "education_level")
     private String educationLevel;
+
+    @OneToOne(mappedBy = "educationType")
+    private Specification specification;
 
     public EducationType() {
     }

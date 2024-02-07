@@ -12,6 +12,9 @@ public class BusinessTrips {
     @Column(name = "readiness")
     private String readiness;
 
+    @OneToOne(mappedBy = "businessTrips")
+    private Information information;
+
     public BusinessTrips() {
     }
 
