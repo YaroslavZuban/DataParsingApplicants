@@ -96,28 +96,14 @@ COMMENT ON TABLE language IS 'Язык';
 COMMENT ON COLUMN language.id IS 'ID';
 COMMENT ON COLUMN language.name IS 'Название';
 
----------------------------------------------------
-CREATE TABLE language_foreign
-(
-    id                SERIAL PRIMARY KEY,
-    language_id       INTEGER REFERENCES language (id),
-    language_level_id INTEGER REFERENCES level (id)
-);
-
-COMMENT ON TABLE language_foreign IS 'Иностранный язык';
-COMMENT ON COLUMN language_foreign.id IS 'ID';
-COMMENT ON COLUMN language_foreign.language_id IS 'ID языка';
-COMMENT ON COLUMN language_foreign.language_level_id IS 'ID уровень знания';
 
 ---------------------------------------------------
 CREATE TABLE employees_experience
 (
-    id                       SERIAL PRIMARY KEY,
-    post                     VARCHAR,
-    responsibilities         VARCHAR,
-    company                  VARCHAR,
-    employment_opportunities DATE,
-    dismissal                DATE
+    id               SERIAL PRIMARY KEY,
+    post             VARCHAR,
+    responsibilities VARCHAR,
+    company          VARCHAR
 );
 
 COMMENT ON TABLE employees_experience IS 'Опыт работы';
@@ -125,15 +111,14 @@ COMMENT ON COLUMN employees_experience.id IS 'ID';
 COMMENT ON COLUMN employees_experience.post IS 'Должносить';
 COMMENT ON COLUMN employees_experience.responsibilities IS 'Обязанности';
 COMMENT ON COLUMN employees_experience.company IS 'Компания';
-COMMENT ON COLUMN employees_experience.employment_opportunities IS 'Трудоустройство';
-COMMENT ON COLUMN employees_experience.dismissal IS 'Увольнение';
 
 ---------------------------------------------------
 CREATE TABLE add_information
 (
     id                    SERIAL PRIMARY KEY,
-    language_foreign_id   INTEGER REFERENCES language_foreign (id),
     business_trips_id     INTEGER REFERENCES business_trips (id),
+    language_id INTEGER REFERENCES language (id),
+    level_id    INTEGER REFERENCES level (id),
     courses_and_trainings VARCHAR,
     skills                VARCHAR,
     about_me              VARCHAR
@@ -141,8 +126,9 @@ CREATE TABLE add_information
 
 COMMENT ON TABLE add_information IS 'Дополнительная информация';
 COMMENT ON COLUMN add_information.id IS 'ID';
-COMMENT ON COLUMN add_information.language_foreign_id IS 'Иностранный язык';
 COMMENT ON COLUMN add_information.business_trips_id IS 'Командировка';
+COMMENT ON COLUMN add_information.language_id IS 'Язык';
+COMMENT ON COLUMN add_information.level_id IS 'Уровень знания';
 COMMENT ON COLUMN add_information.courses_and_trainings IS 'Курсы и тренинг';
 COMMENT ON COLUMN add_information.skills IS 'Навыки и умения';
 COMMENT ON COLUMN add_information.about_me IS 'Обо мне';
@@ -164,24 +150,22 @@ COMMENT ON COLUMN license.license_category_id IS 'ID категория прав
 CREATE TABLE personal_data
 (
     id                 SERIAL PRIMARY KEY,
-    first_name         VARCHAR,
-    last_name          VARCHAR,
-    patronymic         VARCHAR,
+    name               VARCHAR,
     habitation_id      INTEGER REFERENCES habitation (id),
     gender_id          INTEGER REFERENCES gender (id),
-    birth_data         DATE,
-    add_information_id INTEGER REFERENCES add_information (id)
+    birth_data         VARCHAR,
+    add_information_id INTEGER REFERENCES add_information (id),
+    wages              VARCHAR
 );
 
 COMMENT ON TABLE personal_data IS 'Личные данные';
 COMMENT ON COLUMN personal_data.id IS 'ID';
-COMMENT ON COLUMN personal_data.first_name IS 'Имя';
-COMMENT ON COLUMN personal_data.last_name IS 'Фамилия';
-COMMENT ON COLUMN personal_data.patronymic IS 'Отчество';
+COMMENT ON COLUMN personal_data.name IS 'Имя';
 COMMENT ON COLUMN personal_data.habitation_id IS 'Проживание ID';
 COMMENT ON COLUMN personal_data.gender_id IS 'Пол человека ID';
 COMMENT ON COLUMN personal_data.birth_data IS 'Дата рождения';
 COMMENT ON COLUMN personal_data.add_information_id IS 'Дополнительная информация ID';
+COMMENT ON COLUMN personal_data.wages IS 'Заработная плата';
 
 ---------------------------------------------------
 CREATE TABLE work

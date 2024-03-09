@@ -12,23 +12,14 @@ import org.springframework.stereotype.Component;
 import java.io.IOException;
 
 @Component
-public class ParerApplicants implements Parser {
-    private final String URL = "https://joblab.ru";
+public class ResumeParsing {
+    private final Container container = new Container();
 
-    private final PersonDataService personDataService;
-
-    @Autowired
-    public ParerApplicants(PersonDataService personDataService) {
-        this.personDataService = personDataService;
-    }
-
-    @Override
-    @Scheduled(fixedDelay = 10000)
-    public void parser() {
-        int id = 5645136;
-
+    public void parser(String link) {
         try {
-            Document document = Jsoup.connect(URL)
+            String url = "https://joblab.ru";
+
+            Document document = Jsoup.connect(url + link)
                     .userAgent("Chrome")
                     .timeout(5000)
                     .referrer("https://google.com")
@@ -41,19 +32,26 @@ public class ParerApplicants implements Parser {
 
                 for (Element row : rows) {
                     Elements cells = row.select("td");
+
                     if (cells.size() == 2) { // Ensure there are exactly two cells in a row
                         Element categoryElement = cells.get(0).selectFirst("p.graytext");
-                        Element valueElement = cells.get(1).selectFirst("p");
+                        Elements valueElements = cells.get(1).select("p");
 
-                        if (categoryElement != null && valueElement != null) {
+                        if (categoryElement != null && valueElements != null && !valueElements.isEmpty()) {
                             String category = categoryElement.text();
-                            String value = valueElement.text();
+                            StringBuilder values = new StringBuilder();
 
-                            System.out.println(category + ": " + value);
+                            for (Element valueElement : valueElements) {
+                                values.append(valueElement.text()).append(System.lineSeparator());
+                            }
+
+                            container.completionResume(category, String.valueOf(values));
                         }
                     }
                 }
             }
+
+            container.clearResume();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

@@ -6,6 +6,4 @@ import org.springframework.stereotype.Service;
 @Service
 public interface LevelService {
     void save(Level level);
-
-    boolean isExist(Level level);
 }

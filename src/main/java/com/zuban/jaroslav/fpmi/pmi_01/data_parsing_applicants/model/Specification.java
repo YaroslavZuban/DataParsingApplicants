@@ -1,11 +1,15 @@
 package com.zuban.jaroslav.fpmi.pmi_01.data_parsing_applicants.model;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.annotation.processing.Generated;
 import java.util.List;
 
 @Entity
+@Getter
+@Setter
 @Table(name = "specification")
 public class Specification {
     @Id
@@ -34,34 +38,6 @@ public class Specification {
     public Specification(int ending, String educational_institution, String direction) {
         this.ending = ending;
         this.educational_institution = educational_institution;
-        this.direction = direction;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public int getEnding() {
-        return ending;
-    }
-
-    public void setEnding(int ending) {
-        this.ending = ending;
-    }
-
-    public String getEducational_institution() {
-        return educational_institution;
-    }
-
-    public void setEducational_institution(String educational_institution) {
-        this.educational_institution = educational_institution;
-    }
-
-    public String getDirection() {
-        return direction;
-    }
-
-    public void setDirection(String direction) {
         this.direction = direction;
     }
 }

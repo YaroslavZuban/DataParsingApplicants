@@ -6,6 +6,4 @@ import org.springframework.stereotype.Service;
 @Service
 public interface LanguageService {
     void save(Language newLanguage);
-
-    boolean isExist(Language language);
 }

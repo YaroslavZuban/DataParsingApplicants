@@ -1,10 +1,14 @@
 package com.zuban.jaroslav.fpmi.pmi_01.data_parsing_applicants.model;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.List;
 
 @Entity
+@Getter
+@Setter
 @Table(name = "add_information")
 public class Information {
     @Id
@@ -20,9 +24,13 @@ public class Information {
     @Column(name = "about_me")
     private String aboutMe;
 
-    @OneToMany
-    @JoinColumn(name = "language_foreign_id", referencedColumnName = "id")
-    private List<LanguageForeign> languageForeign;
+    @OneToOne
+    @JoinColumn(name = "language_id", referencedColumnName = "id")
+    private Language language;
+
+    @OneToOne
+    @JoinColumn(name = "level_id", referencedColumnName = "id")
+    private Level level;
 
     @OneToOne
     @JoinColumn(name = "business_trips_id", referencedColumnName = "id")
@@ -38,49 +46,5 @@ public class Information {
     private PersonalData personalData;
 
     public Information() {
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public List<LanguageForeign> getLanguageForeign() {
-        return languageForeign;
-    }
-
-    public void setLanguageForeign(List<LanguageForeign> languageForeign) {
-        this.languageForeign = languageForeign;
-    }
-
-    public BusinessTrips getBusinessTrips() {
-        return businessTrips;
-    }
-
-    public void setBusinessTrips(BusinessTrips businessTrips) {
-        this.businessTrips = businessTrips;
-    }
-
-    public String getCourses() {
-        return courses;
-    }
-
-    public void setCourses(String courses) {
-        this.courses = courses;
-    }
-
-    public String getSkills() {
-        return skills;
-    }
-
-    public void setSkills(String skills) {
-        this.skills = skills;
-    }
-
-    public String getAboutMe() {
-        return aboutMe;
-    }
-
-    public void setAboutMe(String aboutMe) {
-        this.aboutMe = aboutMe;
     }
 }

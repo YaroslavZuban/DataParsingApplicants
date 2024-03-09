@@ -1,8 +1,12 @@
 package com.zuban.jaroslav.fpmi.pmi_01.data_parsing_applicants.model;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
 @Entity
+@Getter
+@Setter
 @Table(name = "habitation")
 public class Habitation {
     @Id
@@ -16,21 +20,5 @@ public class Habitation {
     private PersonalData personalData;
 
     public Habitation() {
-    }
-
-    public Habitation(String city) {
-        this.city = city;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public String getCity() {
-        return city;
-    }
-
-    public void setCity(String city) {
-        this.city = city;
     }
 }

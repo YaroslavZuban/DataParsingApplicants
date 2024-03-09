@@ -1,8 +1,12 @@
 package com.zuban.jaroslav.fpmi.pmi_01.data_parsing_applicants.model;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
 @Entity
+@Getter
+@Setter
 @Table(name = "education_type")
 public class EducationType {
     @Id
@@ -16,21 +20,5 @@ public class EducationType {
     private Specification specification;
 
     public EducationType() {
-    }
-
-    public EducationType(String educationLevel) {
-        this.educationLevel = educationLevel;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public String getEducationLevel() {
-        return educationLevel;
-    }
-
-    public void setEducationLevel(String educationLevel) {
-        this.educationLevel = educationLevel;
     }
 }

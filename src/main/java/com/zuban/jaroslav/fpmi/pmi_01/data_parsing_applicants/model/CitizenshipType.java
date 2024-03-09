@@ -1,10 +1,14 @@
 package com.zuban.jaroslav.fpmi.pmi_01.data_parsing_applicants.model;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.List;
 
 @Entity
+@Getter
+@Setter
 @Table(name = "citizenship_type")
 public class CitizenshipType {
     @Id
@@ -18,21 +22,5 @@ public class CitizenshipType {
     private List<PersonalData> personalDataList;
 
     public CitizenshipType() {
-    }
-
-    public CitizenshipType(String name) {
-        this.name = name;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 }
