@@ -3,7 +3,9 @@ package com.zuban.jaroslav.fpmi.pmi_01.data_parsing_applicants.service;
 import com.zuban.jaroslav.fpmi.pmi_01.data_parsing_applicants.model.Language;
 import com.zuban.jaroslav.fpmi.pmi_01.data_parsing_applicants.repository.LanguageRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+@Service
 public class LanguageServiceImpl implements LanguageService {
     private final LanguageRepository languageRepository;
 
@@ -19,5 +21,9 @@ public class LanguageServiceImpl implements LanguageService {
         }
 
         languageRepository.save(newLanguage);
+    }
+
+    public Language findLanguage(String name) {
+        return languageRepository.findByName(name);
     }
 }

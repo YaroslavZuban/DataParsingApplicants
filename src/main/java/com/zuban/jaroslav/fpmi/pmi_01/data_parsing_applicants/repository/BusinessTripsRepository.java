@@ -6,4 +6,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface BusinessTripsRepository extends JpaRepository<BusinessTrips, Integer> {
+    BusinessTrips findByReadiness(String readiness);
+
+    boolean existsByReadiness(String readiness);
 }

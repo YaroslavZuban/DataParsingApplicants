@@ -6,6 +6,4 @@ import org.springframework.stereotype.Service;
 @Service
 public interface LicenseCategoryService {
     void save(LicenceCategory newLicenceCategory);
-
-    boolean isExist(LicenceCategory licenceCategory);
 }

@@ -16,9 +16,13 @@ public class Level {
     @Column(name = "knowledge_level")
     private String knowledgeLevel;
 
-    @OneToOne
+    @OneToOne(mappedBy = "Level")
     private Information information;
 
     public Level() {
+    }
+
+    public Level(String knowledgeLevel) {
+        this.knowledgeLevel = knowledgeLevel;
     }
 }

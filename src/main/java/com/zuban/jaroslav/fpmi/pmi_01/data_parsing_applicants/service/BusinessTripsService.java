@@ -6,6 +6,4 @@ import org.springframework.stereotype.Service;
 @Service
 public interface BusinessTripsService {
     void save(BusinessTrips newBusinessTrips);
-
-    boolean isExist(BusinessTrips businessTrips);
 }

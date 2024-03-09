@@ -21,4 +21,8 @@ public class BusinessTrips {
 
     public BusinessTrips() {
     }
+
+    public BusinessTrips(String readiness) {
+        this.readiness = readiness;
+    }
 }

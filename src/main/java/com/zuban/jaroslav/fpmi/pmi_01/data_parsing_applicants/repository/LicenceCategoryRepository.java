@@ -6,4 +6,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface LicenceCategoryRepository extends JpaRepository<LicenceCategory, Integer> {
+    boolean existsByCategory(String category);
+
+    LicenceCategory findByCategory(String category);
 }
