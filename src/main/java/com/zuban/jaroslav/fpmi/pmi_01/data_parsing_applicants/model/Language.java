@@ -17,7 +17,7 @@ public class Language {
     @Column(name = "name")
     private String name;
 
-    @OneToOne(mappedBy = "language")
+    @ManyToOne
     private Information Information;
 
     public Language() {

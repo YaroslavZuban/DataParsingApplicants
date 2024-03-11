@@ -21,4 +21,8 @@ public class LicenceCategory {
 
     public LicenceCategory() {
     }
+
+    public LicenceCategory(String category) {
+        this.category = category;
+    }
 }

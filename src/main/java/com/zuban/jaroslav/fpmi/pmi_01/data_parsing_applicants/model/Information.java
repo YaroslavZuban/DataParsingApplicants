@@ -24,13 +24,18 @@ public class Information {
     @Column(name = "about_me")
     private String aboutMe;
 
-    @OneToOne
-    @JoinColumn(name = "language_id", referencedColumnName = "id")
-    private Language language;
+    @OneToMany
+    @JoinTable(name = "languages_information",
+            joinColumns = @JoinColumn(name = "information_id"),
+            inverseJoinColumns = @JoinColumn(name = "language_id")
+    )
+    private List<Language> languages;
 
-    @OneToOne
-    @JoinColumn(name = "level_id", referencedColumnName = "id")
-    private Level level;
+    @OneToMany
+    @JoinTable(name = "levels_information",
+            joinColumns = @JoinColumn(name = "information_id"),
+            inverseJoinColumns = @JoinColumn(name = "level_id"))
+    private List<Level> levels;
 
     @OneToOne
     @JoinColumn(name = "business_trips_id", referencedColumnName = "id")
@@ -46,5 +51,11 @@ public class Information {
     private PersonalData personalData;
 
     public Information() {
+    }
+
+    public Information(String courses, String skills, String aboutMe) {
+        this.courses = courses;
+        this.skills = skills;
+        this.aboutMe = aboutMe;
     }
 }

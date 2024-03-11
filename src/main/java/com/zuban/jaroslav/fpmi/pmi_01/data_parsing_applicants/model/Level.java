@@ -16,7 +16,7 @@ public class Level {
     @Column(name = "knowledge_level")
     private String knowledgeLevel;
 
-    @OneToOne(mappedBy = "Level")
+    @ManyToOne
     private Information information;
 
     public Level() {
