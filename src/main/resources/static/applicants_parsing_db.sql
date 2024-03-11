@@ -113,12 +113,34 @@ COMMENT ON COLUMN employees_experience.responsibilities IS 'Обязанност
 COMMENT ON COLUMN employees_experience.company IS 'Компания';
 
 ---------------------------------------------------
+CREATE TABLE languages_information
+(
+    id          serial PRIMARY KEY,
+    language_id INTEGER REFERENCES language (id),
+    information INTEGER REFERENCES add_information (id)
+);
+
+COMMENT ON TABLE languages_information IS 'Таблица связей языка и информации';
+COMMENT ON COLUMN languages_information.id IS 'ID';
+COMMENT ON COLUMN languages_information.language_id IS 'ID языка';
+COMMENT ON COLUMN languages_information.information IS 'ID дополнительной информации';
+---------------------------------------------------
+CREATE TABLE levels_information
+(
+    id          serial PRIMARY KEY,
+    level_id    INTEGER REFERENCES level (id),
+    information INTEGER REFERENCES add_information (id)
+);
+
+COMMENT ON TABLE languages_information IS 'Таблица связей уровня знания языка и информации';
+COMMENT ON COLUMN languages_information.id IS 'ID';
+COMMENT ON COLUMN languages_information.language_id IS 'ID уровня знания языка';
+COMMENT ON COLUMN languages_information.information IS 'ID дополнительной информации';
+---------------------------------------------------
 CREATE TABLE add_information
 (
     id                    SERIAL PRIMARY KEY,
     business_trips_id     INTEGER REFERENCES business_trips (id),
-    language_id INTEGER REFERENCES language (id),
-    level_id    INTEGER REFERENCES level (id),
     courses_and_trainings VARCHAR,
     skills                VARCHAR,
     about_me              VARCHAR
@@ -127,8 +149,6 @@ CREATE TABLE add_information
 COMMENT ON TABLE add_information IS 'Дополнительная информация';
 COMMENT ON COLUMN add_information.id IS 'ID';
 COMMENT ON COLUMN add_information.business_trips_id IS 'Командировка';
-COMMENT ON COLUMN add_information.language_id IS 'Язык';
-COMMENT ON COLUMN add_information.level_id IS 'Уровень знания';
 COMMENT ON COLUMN add_information.courses_and_trainings IS 'Курсы и тренинг';
 COMMENT ON COLUMN add_information.skills IS 'Навыки и умения';
 COMMENT ON COLUMN add_information.about_me IS 'Обо мне';
