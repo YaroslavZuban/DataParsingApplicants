@@ -113,30 +113,6 @@ COMMENT ON COLUMN employees_experience.responsibilities IS 'Обязанност
 COMMENT ON COLUMN employees_experience.company IS 'Компания';
 
 ---------------------------------------------------
-CREATE TABLE languages_information
-(
-    id          serial PRIMARY KEY,
-    language_id INTEGER REFERENCES language (id),
-    information INTEGER REFERENCES add_information (id)
-);
-
-COMMENT ON TABLE languages_information IS 'Таблица связей языка и информации';
-COMMENT ON COLUMN languages_information.id IS 'ID';
-COMMENT ON COLUMN languages_information.language_id IS 'ID языка';
-COMMENT ON COLUMN languages_information.information IS 'ID дополнительной информации';
----------------------------------------------------
-CREATE TABLE levels_information
-(
-    id          serial PRIMARY KEY,
-    level_id    INTEGER REFERENCES level (id),
-    information INTEGER REFERENCES add_information (id)
-);
-
-COMMENT ON TABLE languages_information IS 'Таблица связей уровня знания языка и информации';
-COMMENT ON COLUMN languages_information.id IS 'ID';
-COMMENT ON COLUMN languages_information.language_id IS 'ID уровня знания языка';
-COMMENT ON COLUMN languages_information.information IS 'ID дополнительной информации';
----------------------------------------------------
 CREATE TABLE add_information
 (
     id                    SERIAL PRIMARY KEY,
@@ -153,6 +129,31 @@ COMMENT ON COLUMN add_information.courses_and_trainings IS 'Курсы и тре
 COMMENT ON COLUMN add_information.skills IS 'Навыки и умения';
 COMMENT ON COLUMN add_information.about_me IS 'Обо мне';
 
+
+---------------------------------------------------
+CREATE TABLE languages_information
+(
+    id          serial PRIMARY KEY,
+    language_id INTEGER REFERENCES language (id),
+    information_id INTEGER REFERENCES add_information (id)
+);
+
+COMMENT ON TABLE languages_information IS 'Таблица связей языка и информации';
+COMMENT ON COLUMN languages_information.id IS 'ID';
+COMMENT ON COLUMN languages_information.language_id IS 'ID языка';
+COMMENT ON COLUMN languages_information.information_id IS 'ID дополнительной информации';
+---------------------------------------------------
+CREATE TABLE levels_information
+(
+    id          serial PRIMARY KEY,
+    level_id    INTEGER REFERENCES level (id),
+    information_id INTEGER REFERENCES add_information (id)
+);
+
+COMMENT ON TABLE levels_information IS 'Таблица связей уровня знания языка и информации';
+COMMENT ON COLUMN levels_information.id IS 'ID';
+COMMENT ON COLUMN levels_information.level_id IS 'ID уровня знания языка';
+COMMENT ON COLUMN levels_information.information_id IS 'ID дополнительной информации';
 ---------------------------------------------------
 CREATE TABLE license
 (
