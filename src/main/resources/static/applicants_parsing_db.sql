@@ -161,8 +161,8 @@ CREATE SEQUENCE languages_information_seq;
 ---------------------------------------------------
 CREATE TABLE levels_information
 (
-    id          serial PRIMARY KEY,
-    level_id    INTEGER REFERENCES level (id),
+    id       serial PRIMARY KEY,
+    level_id INTEGER REFERENCES level (id),
     information_id INTEGER REFERENCES add_information (id)
 );
 
@@ -191,6 +191,7 @@ CREATE TABLE personal_data
 (
     id                 SERIAL PRIMARY KEY,
     name               VARCHAR,
+    title VARCHAR,
     habitation_id      INTEGER REFERENCES habitation (id),
     gender_id          INTEGER REFERENCES gender (id),
     birth_data         VARCHAR,
@@ -201,6 +202,7 @@ CREATE TABLE personal_data
 COMMENT ON TABLE personal_data IS 'Личные данные';
 COMMENT ON COLUMN personal_data.id IS 'ID';
 COMMENT ON COLUMN personal_data.name IS 'Имя';
+COMMENT ON COLUMN personal_data.title IS 'Титульное название';
 COMMENT ON COLUMN personal_data.habitation_id IS 'Проживание ID';
 COMMENT ON COLUMN personal_data.gender_id IS 'Пол человека ID';
 COMMENT ON COLUMN personal_data.birth_data IS 'Дата рождения';
