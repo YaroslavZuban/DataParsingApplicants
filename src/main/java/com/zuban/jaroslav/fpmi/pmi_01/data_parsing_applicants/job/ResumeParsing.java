@@ -33,6 +33,13 @@ public class ResumeParsing {
                     .referrer("https://google.com")
                     .get();
 
+            // Проверяем наличие элемента <h1>
+            Element h1Element = document.selectFirst("h1");
+            if (h1Element != null) {
+                String title = h1Element.text();
+                container.completionResume("Title", title);
+            }
+
             Element table = document.select("table.table-to-div").first();
 
             if (table != null) {

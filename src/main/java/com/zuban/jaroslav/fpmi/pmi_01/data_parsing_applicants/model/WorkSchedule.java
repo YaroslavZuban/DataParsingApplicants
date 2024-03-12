@@ -12,7 +12,8 @@ import java.util.List;
 @Table(name = "work_schedule")
 public class WorkSchedule {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "work_schedule_seq")
+    @SequenceGenerator(name = "work_schedule_seq", sequenceName = "work_schedule_seq", allocationSize = 1)
     private int id;
 
     @Column(name = "work_type")

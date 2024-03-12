@@ -21,7 +21,13 @@ public class DataWriter {
     private final EducationTypeServiceImpl educationTypeService;
     private final CitizenshipTypeServiceImpl citizenshipTypeService;
     private final SpecificationServiceImpl specificationService;
-    private final GenderServerImpl genderServer;
+    private final GenderServiceImpl genderServer;
+
+    private final WorkScheduleServiceImpl workScheduleService;
+
+    private final HabitationServiceImpl habitationService;
+
+    private final EmployeesExperienceServiceImpl employeesExperienceService;
 
     @Autowired
     public DataWriter(LanguageServiceImpl languageService, LevelServiceImpl levelService,
@@ -30,7 +36,7 @@ public class DataWriter {
                       InformationServiceImpl informationService,
                       EducationTypeServiceImpl educationTypeService,
                       CitizenshipTypeServiceImpl citizenshipTypeService,
-                      SpecificationServiceImpl specificationService, GenderServerImpl genderServer) {
+                      SpecificationServiceImpl specificationService, GenderServiceImpl genderServer, WorkScheduleServiceImpl workScheduleService, HabitationServiceImpl habitationService, EmployeesExperienceServiceImpl employeesExperienceService) {
         this.languageService = languageService;
         this.levelService = levelService;
         this.businessTripsService = businessTripsService;
@@ -40,18 +46,103 @@ public class DataWriter {
         this.citizenshipTypeService = citizenshipTypeService;
         this.specificationService = specificationService;
         this.genderServer = genderServer;
+        this.workScheduleService = workScheduleService;
+        this.habitationService = habitationService;
+        this.employeesExperienceService = employeesExperienceService;
     }
 
     public void writeDataBase(Map<String, List<String>> resume) {
         //тестирование
+        //processEmployeesExperienceInformation(resume);
+        //processHabitationInformation(resume);
+        //processWorkScheduleInformation(resume);
+        //processGenderInformation(resume);
         //addCitizenshipTypes(resume);
         //addSpecification(resume);
         //addGender(resume);
         //newInformation(resume);
     }
 
+    private List<EmployeesExperience> processEmployeesExperienceInformation(Map<String, List<String>> resume) {
+        if (resume.get("Должность") == null) {
+            return null;
+        }
+
+        List<String> postList = resume.get("Должность");
+        List<String> responsibilitiesList = resume.get("Обязанности");
+        List<String> companyList = resume.get("Компания");
+
+        List<EmployeesExperience> experienceList = new ArrayList<>(postList.size());
+
+        for (int i = 0; i < postList.size(); i++) {
+            String post = postList.get(i);
+            String responsibilities = responsibilitiesList.get(i);
+            String company = companyList.get(i);
+
+            EmployeesExperience employeesExperience = employeesExperienceService.find(
+                    post,
+                    responsibilities,
+                    company
+            );
+
+            if (employeesExperience == null) {
+                employeesExperience = new EmployeesExperience(post, responsibilities, company);
+                employeesExperienceService.save(employeesExperience);
+            }
+
+            experienceList.add(employeesExperience);
+        }
+
+        return experienceList;
+    }
+
+    private Habitation processHabitationInformation(Map<String, List<String>> resume) {
+        if (resume.get("Проживание") == null) {
+            return null;
+        }
+
+        String city = resume.get("Проживание").get(0);
+
+        if (city.contains(",")) {
+            city = city.substring(0, city.indexOf(","));
+        }
+
+        Habitation habitation = habitationService.find(city);
+
+        if (habitation == null) {
+            habitation = new Habitation(city);
+            habitationService.save(habitation);
+        }
+
+        return habitation;
+    }
+
+    private List<WorkSchedule> processWorkScheduleInformation(Map<String, List<String>> resume) {
+        if (resume.get("График работы") == null) {
+            return null;
+        }
+
+        String workType = resume.get("График работы").get(0);
+        String[] elements = workType.split(" / ");
+
+        List<WorkSchedule> workScheduleList = new ArrayList<>(elements.length);
+
+        for (String element : elements) {
+            WorkSchedule workSchedule = workScheduleService.find(element);
+
+            if (workSchedule == null) {
+                workSchedule = new WorkSchedule(element);
+                workScheduleService.save(workSchedule);
+            }
+
+            workScheduleList.add(workSchedule);
+        }
+
+        return workScheduleList;
+    }
+
     //Гендер
-    private Gender addGender(Map<String, List<String>> resume) {
+    private Gender processGenderInformation(Map<String, List<String>> resume) {
         if (resume.get("Пол") == null) {
             return null;
         }
@@ -69,7 +160,7 @@ public class DataWriter {
     }
 
     //Тип гражданства
-    private List<CitizenshipType> addCitizenshipTypes(Map<String, List<String>> resume) {
+    private List<CitizenshipType> processCitizenshipTypesInformation(Map<String, List<String>> resume) {
         List<String> citizenshipList = resume.get("Гражданство");
 
         if (citizenshipList == null) {
@@ -78,7 +169,7 @@ public class DataWriter {
 
         String citizenship = citizenshipList.get(0);
 
-        String[] elements = citizenship.split("/");
+        String[] elements = citizenship.split(" / ");
         List<CitizenshipType> citizenshipTypeList = new ArrayList<>(elements.length);
 
         for (String element : elements) {
@@ -96,7 +187,7 @@ public class DataWriter {
     }
 
     //Спецификация
-    private List<Specification> addSpecification(Map<String, List<String>> resume) {
+    private List<Specification> processSpecificationInformation(Map<String, List<String>> resume) {
         List<String> educationTypesString = resume.get("Образование");
 
         if (educationTypesString == null) {
@@ -156,14 +247,14 @@ public class DataWriter {
     }
 
     // Работа шла над дополнительной информацией
-    private Information newInformation(Map<String, List<String>> resume) {
-        Information information = addInformation(resume);
+    private Information processInformation(Map<String, List<String>> resume) {
+        Information information = processNewInformation(resume);
 
         //Уровень языка и сам язык какой он есть. Данные списки используются вместе.
-        List<Language> languages = addLanguage(resume);
-        List<Level> levels = addLevel(resume);
+        List<Language> languages = processLanguageInformation(resume);
+        List<Level> levels = processLevelInformation(resume);
 
-        BusinessTrips businessTrips = addBusinessTrips(resume);
+        BusinessTrips businessTrips = processBusinessTripsInformation(resume);
 
         //Если в дополнительной информации появились еще языки
         List<Language> languageList = information.getLanguages();
@@ -184,7 +275,7 @@ public class DataWriter {
             }
         }
 
-        List<LicenceCategory> licenceCategoryList = licenceCategories(resume);
+        List<LicenceCategory> licenceCategoryList = processLicenceCategoriesInformation(resume);
         List<LicenceCategory> licenceCategories = information.getCategoryList();
 
         if (licenceCategoryList != null) {
@@ -215,7 +306,7 @@ public class DataWriter {
         return information;
     }
 
-    private List<Language> addLanguage(Map<String, List<String>> resume) {
+    private List<Language> processLanguageInformation(Map<String, List<String>> resume) {
         String line = null;
 
         if (resume.get("Иностранные языки") != null) {
@@ -252,7 +343,7 @@ public class DataWriter {
         return languages;
     }
 
-    private List<Level> addLevel(Map<String, List<String>> resume) {
+    private List<Level> processLevelInformation(Map<String, List<String>> resume) {
         String line = null;
 
         if (resume.get("Иностранные языки") != null) {
@@ -292,7 +383,7 @@ public class DataWriter {
         return levels;
     }
 
-    private BusinessTrips addBusinessTrips(Map<String, List<String>> resume) {
+    private BusinessTrips processBusinessTripsInformation(Map<String, List<String>> resume) {
         String line = null;
 
         if (resume.get("Командировки") != null) {
@@ -313,7 +404,7 @@ public class DataWriter {
         return businessTrips;
     }
 
-    private List<LicenceCategory> licenceCategories(Map<String, List<String>> resume) {
+    private List<LicenceCategory> processLicenceCategoriesInformation(Map<String, List<String>> resume) {
         String line = null;
 
         if (resume.get("Водительские права") != null) {
@@ -350,7 +441,7 @@ public class DataWriter {
         return licenceCategories;
     }
 
-    private Information addInformation(Map<String, List<String>> resume) {
+    private Information processNewInformation(Map<String, List<String>> resume) {
         String courses = null;
 
         if (resume.get("Курсы и тренинги") != null) {

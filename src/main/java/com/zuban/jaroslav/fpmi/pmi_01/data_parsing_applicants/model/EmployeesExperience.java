@@ -12,14 +12,15 @@ import java.util.List;
 @Table(name = "employees_experience")
 public class EmployeesExperience {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "employees_experience_seq")
+    @SequenceGenerator(name = "employees_experience_seq", sequenceName = "employees_experience_seq", allocationSize = 1)
     private int id;
 
     @Column(name = "post")
     private String post;
 
     @Column(name = "responsibilities")
-    private String responsibilities;
+    private String responsibilities; //Обязанности
 
     @Column(name = "company")
     private String company;

@@ -6,11 +6,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class GenderServerImpl implements GenderService {
+public class GenderServiceImpl implements GenderService {
     private final GenderRepository genderRepository;
 
     @Autowired
-    public GenderServerImpl(GenderRepository genderRepository) {
+    public GenderServiceImpl(GenderRepository genderRepository) {
         this.genderRepository = genderRepository;
     }
 

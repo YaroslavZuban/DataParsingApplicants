@@ -6,4 +6,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface WorkScheduleRepository extends JpaRepository<WorkSchedule, Integer> {
+    boolean existsByWorkType(String workType);
+
+    WorkSchedule findByWorkType(String workType);
 }
