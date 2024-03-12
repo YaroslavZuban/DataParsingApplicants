@@ -8,6 +8,8 @@ COMMENT ON TABLE habitation IS 'Проживание';
 COMMENT ON COLUMN habitation.id IS 'ID';
 COMMENT ON COLUMN habitation.city IS 'Город';
 
+CREATE SEQUENCE habitation_seq;
+
 ---------------------------------------------------
 CREATE TABLE work_schedule
 (
@@ -18,6 +20,8 @@ CREATE TABLE work_schedule
 COMMENT ON TABLE work_schedule IS 'График работы';
 COMMENT ON COLUMN work_schedule.id IS 'ID';
 COMMENT ON COLUMN work_schedule.work_type IS 'Тип работы';
+
+CREATE SEQUENCE work_schedule_seq;
 
 ---------------------------------------------------
 CREATE TABLE education_type
@@ -30,6 +34,8 @@ COMMENT ON TABLE education_type IS 'Тип образования';
 COMMENT ON COLUMN education_type.id IS 'ID';
 COMMENT ON COLUMN education_type.education_level IS 'Уровень образования';
 
+CREATE SEQUENCE education_type_seq;
+
 ---------------------------------------------------
 CREATE TABLE citizenship_type
 (
@@ -40,6 +46,8 @@ CREATE TABLE citizenship_type
 COMMENT ON TABLE citizenship_type IS 'Тип гражданства';
 COMMENT ON COLUMN citizenship_type.id IS 'ID';
 COMMENT ON COLUMN citizenship_type.name IS 'Названия гражданства';
+
+CREATE SEQUENCE citizenship_type_seq;
 
 ---------------------------------------------------
 CREATE TABLE gender
@@ -52,6 +60,7 @@ COMMENT ON TABLE gender IS 'Пол';
 COMMENT ON COLUMN gender.id IS 'ID';
 COMMENT ON COLUMN gender.type IS 'Тип пола';
 
+CREATE SEQUENCE gender_seq;
 ---------------------------------------------------
 CREATE TABLE licence_category
 (
@@ -63,6 +72,7 @@ COMMENT ON TABLE licence_category IS 'Категория прав';
 COMMENT ON COLUMN licence_category.id IS 'ID';
 COMMENT ON COLUMN licence_category.category IS 'Категория';
 
+CREATE SEQUENCE licence_category_seq;
 ---------------------------------------------------
 CREATE TABLE business_trips
 (
@@ -74,17 +84,19 @@ COMMENT ON TABLE business_trips IS 'Командировка';
 COMMENT ON COLUMN business_trips.id IS 'ID';
 COMMENT ON COLUMN business_trips.readiness IS 'Готовность';
 
+CREATE SEQUENCE business_trips_seq;
 ---------------------------------------------------
 CREATE TABLE level
 (
     id              SERIAL PRIMARY KEY,
-    knowledge_level VARCHAR(4)
+    knowledge_level VARCHAR
 );
 
 COMMENT ON TABLE level IS 'Уровень';
 COMMENT ON COLUMN level.id IS 'ID';
 COMMENT ON COLUMN level.knowledge_level IS 'Уровень знания';
 
+CREATE SEQUENCE level_seq;
 ---------------------------------------------------
 CREATE TABLE language
 (
@@ -96,6 +108,7 @@ COMMENT ON TABLE language IS 'Язык';
 COMMENT ON COLUMN language.id IS 'ID';
 COMMENT ON COLUMN language.name IS 'Название';
 
+CREATE SEQUENCE language_seq;
 
 ---------------------------------------------------
 CREATE TABLE employees_experience
@@ -112,6 +125,7 @@ COMMENT ON COLUMN employees_experience.post IS 'Должносить';
 COMMENT ON COLUMN employees_experience.responsibilities IS 'Обязанности';
 COMMENT ON COLUMN employees_experience.company IS 'Компания';
 
+CREATE SEQUENCE employees_experience_seq;
 ---------------------------------------------------
 CREATE TABLE add_information
 (
@@ -129,7 +143,7 @@ COMMENT ON COLUMN add_information.courses_and_trainings IS 'Курсы и тре
 COMMENT ON COLUMN add_information.skills IS 'Навыки и умения';
 COMMENT ON COLUMN add_information.about_me IS 'Обо мне';
 
-
+CREATE SEQUENCE add_information_seq;
 ---------------------------------------------------
 CREATE TABLE languages_information
 (
@@ -142,6 +156,8 @@ COMMENT ON TABLE languages_information IS 'Таблица связей язык�
 COMMENT ON COLUMN languages_information.id IS 'ID';
 COMMENT ON COLUMN languages_information.language_id IS 'ID языка';
 COMMENT ON COLUMN languages_information.information_id IS 'ID дополнительной информации';
+
+CREATE SEQUENCE languages_information_seq;
 ---------------------------------------------------
 CREATE TABLE levels_information
 (
@@ -154,6 +170,8 @@ COMMENT ON TABLE levels_information IS 'Таблица связей уровня
 COMMENT ON COLUMN levels_information.id IS 'ID';
 COMMENT ON COLUMN levels_information.level_id IS 'ID уровня знания языка';
 COMMENT ON COLUMN levels_information.information_id IS 'ID дополнительной информации';
+
+CREATE SEQUENCE levels_information_seq;
 ---------------------------------------------------
 CREATE TABLE license
 (
@@ -167,6 +185,7 @@ COMMENT ON COLUMN license.id IS 'ID';
 COMMENT ON COLUMN license.add_information_id IS 'ID дополнительной информации';
 COMMENT ON COLUMN license.license_category_id IS 'ID категория права';
 
+CREATE SEQUENCE license_information_seq;
 ---------------------------------------------------
 CREATE TABLE personal_data
 (
@@ -188,6 +207,7 @@ COMMENT ON COLUMN personal_data.birth_data IS 'Дата рождения';
 COMMENT ON COLUMN personal_data.add_information_id IS 'Дополнительная информация ID';
 COMMENT ON COLUMN personal_data.wages IS 'Заработная плата';
 
+CREATE SEQUENCE personal_data_seq;
 ---------------------------------------------------
 CREATE TABLE work
 (
@@ -201,6 +221,7 @@ COMMENT ON COLUMN work.id IS 'ID';
 COMMENT ON COLUMN work.person_data_id IS 'Персональные данные ID';
 COMMENT ON COLUMN work.employees_experience_id IS 'Опыт работы ID';
 
+CREATE SEQUENCE work_seq;
 ---------------------------------------------------
 CREATE TABLE employment_type
 (
@@ -214,6 +235,7 @@ COMMENT ON COLUMN employment_type.id IS 'ID';
 COMMENT ON COLUMN employment_type.person_data_id IS 'Персональные данные ID';
 COMMENT ON COLUMN employment_type.work_schedule_id IS 'График работы ID';
 
+CREATE SEQUENCE employment_type_seq;
 ---------------------------------------------------
 CREATE TABLE specification
 (
@@ -231,6 +253,7 @@ COMMENT ON COLUMN specification.ending IS 'Когда окончания уче�
 COMMENT ON COLUMN specification.educational_institution IS 'Учебное заведение';
 COMMENT ON COLUMN specification.direction IS 'Направление';
 
+CREATE SEQUENCE specification_seq;
 ---------------------------------------------------
 CREATE TABLE education
 (
@@ -244,6 +267,7 @@ COMMENT ON COLUMN education.id IS 'ID';
 COMMENT ON COLUMN education.person_data_id IS 'Персональные данные ID';
 COMMENT ON COLUMN education.specification_id IS 'Спецификация ID';
 
+CREATE SEQUENCE education_seq;
 ---------------------------------------------------
 CREATE TABLE citizenship
 (
@@ -256,3 +280,5 @@ COMMENT ON TABLE citizenship IS 'Гражданство';
 COMMENT ON COLUMN citizenship.id IS 'ID';
 COMMENT ON COLUMN citizenship.personal_data_id IS 'Персональные данные ID';
 COMMENT ON COLUMN citizenship.citizenship_type_id IS 'Тип гражданства ID';
+
+CREATE SEQUENCE citizenship_seq;
