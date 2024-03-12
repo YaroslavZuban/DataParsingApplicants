@@ -5,6 +5,10 @@ import com.zuban.jaroslav.fpmi.pmi_01.data_parsing_applicants.repository.WorkSch
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
 @Service
 public class WorkScheduleServiceImpl implements WorkScheduleService {
     private final WorkScheduleRepository workScheduleRepository;
@@ -30,5 +34,29 @@ public class WorkScheduleServiceImpl implements WorkScheduleService {
 
     public WorkSchedule find(String workType) {
         return workScheduleRepository.findByWorkType(workType);
+    }
+
+    public List<WorkSchedule> processWorkScheduleInformation(Map<String, List<String>> resume) {
+        if (resume.get("График работы") == null) {
+            return null;
+        }
+
+        String workType = resume.get("График работы").get(0);
+        String[] elements = workType.split(" / ");
+
+        List<WorkSchedule> workScheduleList = new ArrayList<>(elements.length);
+
+        for (String element : elements) {
+            WorkSchedule workSchedule = find(element);
+
+            if (workSchedule == null) {
+                workSchedule = new WorkSchedule(element);
+                save(workSchedule);
+            }
+
+            workScheduleList.add(workSchedule);
+        }
+
+        return workScheduleList;
     }
 }

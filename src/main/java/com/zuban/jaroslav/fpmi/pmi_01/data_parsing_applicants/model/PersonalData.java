@@ -13,11 +13,18 @@ import java.util.List;
 @Table(name = "personal_data")
 public class PersonalData {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "personal_data_seq")
+    @SequenceGenerator(name = "personal_data_seq", sequenceName = "personal_data_seq", allocationSize = 1)
     private int id;
 
     @Column(name = "name")
     private String name;
+
+    @Column(name = "title")
+    private String title;
+
+    @Column(name = "wages")
+    private String wages;
 
     @OneToOne
     @JoinColumn(name = "habitation_id", referencedColumnName = "id")
@@ -59,7 +66,4 @@ public class PersonalData {
     public PersonalData() {
     }
 
-    public PersonalData(String name) {
-        this.name = name;
-    }
 }

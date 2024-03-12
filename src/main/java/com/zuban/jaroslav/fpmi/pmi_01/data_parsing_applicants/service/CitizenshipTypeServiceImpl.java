@@ -5,6 +5,10 @@ import com.zuban.jaroslav.fpmi.pmi_01.data_parsing_applicants.repository.Citizen
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
 @Service
 public class CitizenshipTypeServiceImpl implements CitizenshipTypeService {
     private final CitizenshipTypeRepository citizenshipTypeRepository;
@@ -30,5 +34,31 @@ public class CitizenshipTypeServiceImpl implements CitizenshipTypeService {
 
     public CitizenshipType find(String name) {
         return citizenshipTypeRepository.findByName(name);
+    }
+
+    public List<CitizenshipType> processCitizenshipTypesInformation(Map<String, List<String>> resume) {
+        List<String> citizenshipList = resume.get("Гражданство");
+
+        if (citizenshipList == null) {
+            return null;
+        }
+
+        String citizenship = citizenshipList.get(0);
+
+        String[] elements = citizenship.split(" / ");
+        List<CitizenshipType> citizenshipTypeList = new ArrayList<>(elements.length);
+
+        for (String element : elements) {
+            CitizenshipType citizenshipType = find(element);
+
+            if (citizenshipType == null) {
+                citizenshipType = new CitizenshipType(element);
+                save(citizenshipType);
+            }
+
+            citizenshipTypeList.add(citizenshipType);
+        }
+
+        return citizenshipTypeList;
     }
 }

@@ -5,6 +5,9 @@ import com.zuban.jaroslav.fpmi.pmi_01.data_parsing_applicants.repository.GenderR
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.Map;
+
 @Service
 public class GenderServiceImpl implements GenderService {
     private final GenderRepository genderRepository;
@@ -30,5 +33,22 @@ public class GenderServiceImpl implements GenderService {
 
     public Gender find(String type) {
         return genderRepository.findByType(type);
+    }
+
+    public Gender processGenderInformation(Map<String, List<String>> resume) {
+        if (resume.get("Пол") == null) {
+            return null;
+        }
+
+        String type = resume.get("Пол").get(0);
+
+        Gender gender = find(type);
+
+        if (gender == null) {
+            gender = new Gender(type);
+            save(gender);
+        }
+
+        return gender;
     }
 }

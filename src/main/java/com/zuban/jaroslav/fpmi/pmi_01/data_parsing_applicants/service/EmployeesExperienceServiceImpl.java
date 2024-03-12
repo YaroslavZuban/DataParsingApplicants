@@ -5,6 +5,10 @@ import com.zuban.jaroslav.fpmi.pmi_01.data_parsing_applicants.repository.Employe
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
 @Service
 public class EmployeesExperienceServiceImpl implements EmployeesExperienceService {
     private final EmployeesExperienceRepository employeesExperienceRepository;
@@ -37,5 +41,34 @@ public class EmployeesExperienceServiceImpl implements EmployeesExperienceServic
                 responsibilities,
                 company
         );
+    }
+
+    public List<EmployeesExperience> processEmployeesExperienceInformation(Map<String, List<String>> resume) {
+        if (resume.get("Должность") == null) {
+            return null;
+        }
+
+        List<String> postList = resume.get("Должность");
+        List<String> responsibilitiesList = resume.get("Обязанности");
+        List<String> companyList = resume.get("Компания");
+
+        List<EmployeesExperience> experienceList = new ArrayList<>(postList.size());
+
+        for (int i = 0; i < postList.size(); i++) {
+            String post = postList.get(i);
+            String responsibilities = responsibilitiesList.get(i);
+            String company = companyList.get(i);
+
+            EmployeesExperience employeesExperience = find(post, responsibilities, company);
+
+            if (employeesExperience == null) {
+                employeesExperience = new EmployeesExperience(post, responsibilities, company);
+                save(employeesExperience);
+            }
+
+            experienceList.add(employeesExperience);
+        }
+
+        return experienceList;
     }
 }
