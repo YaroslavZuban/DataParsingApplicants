@@ -12,7 +12,8 @@ import java.util.List;
 @Table(name = "citizenship_type")
 public class CitizenshipType {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "citizenship_type_seq")
+    @SequenceGenerator(name = "citizenship_type_seq", sequenceName = "citizenship_type_seq", allocationSize = 1)
     private int id;
 
     @Column(name = "name")
@@ -22,5 +23,9 @@ public class CitizenshipType {
     private List<PersonalData> personalDataList;
 
     public CitizenshipType() {
+    }
+
+    public CitizenshipType(String name) {
+        this.name = name;
     }
 }

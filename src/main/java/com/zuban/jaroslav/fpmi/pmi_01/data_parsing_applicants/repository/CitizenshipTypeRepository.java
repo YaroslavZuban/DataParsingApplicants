@@ -6,4 +6,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface CitizenshipTypeRepository extends JpaRepository<CitizenshipType, Integer> {
+    boolean existsByName(String name);
+
+    CitizenshipType findByName(String name);
 }

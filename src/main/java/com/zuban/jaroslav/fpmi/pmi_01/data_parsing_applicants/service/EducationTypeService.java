@@ -6,6 +6,5 @@ import org.springframework.stereotype.Service;
 @Service
 public interface EducationTypeService {
     void save(EducationType newEducationType);
-
     boolean isExist(EducationType educationType);
 }

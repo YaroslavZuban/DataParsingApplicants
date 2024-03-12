@@ -10,7 +10,8 @@ import lombok.Setter;
 @Table(name = "gender")
 public class Gender {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "gender_seq")
+    @SequenceGenerator(name = "gender_seq", sequenceName = "gender_seq", allocationSize = 1)
     private int id;
 
     @Column(name = "type")
@@ -20,5 +21,9 @@ public class Gender {
     private PersonalData personalData;
 
     public Gender() {
+    }
+
+    public Gender(String type) {
+        this.type = type;
     }
 }

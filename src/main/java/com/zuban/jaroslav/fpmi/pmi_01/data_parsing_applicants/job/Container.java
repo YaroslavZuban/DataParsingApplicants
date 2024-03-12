@@ -12,7 +12,7 @@ public class Container {
     DataWriter dataWriter;
     private final String[] categories = {"Имя", "Проживание", "Заработная плата", "График работы", "Образование",
             "Опыт работы", "Гражданство", "Пол", "Возраст", "Должность", "Компания", "Обязанности",
-            "Образование", "Окончание", "Учебное заведение", "Специальность", "Командировки", "Навыки и умения",
+            "Окончание", "Учебное заведение", "Специальность", "Командировки", "Навыки и умения",
             "Обо мне", "Водительские права", "Иностранные языки", "Курсы и тренинги"};
     @Getter
     private Map<String, List<String>> resume = new HashMap<>();
@@ -35,10 +35,6 @@ public class Container {
                 resume.put(key, elements);
             }
         }
-
-        System.out.println("Key: " + key);
-        System.out.println("Value: " + value);
-        System.out.println("-----------------------------------");
     }
 
     public void save() {

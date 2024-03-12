@@ -3,12 +3,13 @@ package com.zuban.jaroslav.fpmi.pmi_01.data_parsing_applicants.job;
 import com.zuban.jaroslav.fpmi.pmi_01.data_parsing_applicants.model.*;
 import com.zuban.jaroslav.fpmi.pmi_01.data_parsing_applicants.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @Service
 public class DataWriter {
@@ -17,23 +18,144 @@ public class DataWriter {
     private final BusinessTripsServiceImpl businessTripsService;
     private final LicenseCategoryServiceImpl licenseCategoryService;
     private final InformationServiceImpl informationService;
+    private final EducationTypeServiceImpl educationTypeService;
+    private final CitizenshipTypeServiceImpl citizenshipTypeService;
+    private final SpecificationServiceImpl specificationService;
+    private final GenderServerImpl genderServer;
 
     @Autowired
     public DataWriter(LanguageServiceImpl languageService, LevelServiceImpl levelService,
                       BusinessTripsServiceImpl businessTripsService,
                       LicenseCategoryServiceImpl licenseCategoryService,
-                      InformationServiceImpl informationService) {
+                      InformationServiceImpl informationService,
+                      EducationTypeServiceImpl educationTypeService,
+                      CitizenshipTypeServiceImpl citizenshipTypeService,
+                      SpecificationServiceImpl specificationService, GenderServerImpl genderServer) {
         this.languageService = languageService;
         this.levelService = levelService;
         this.businessTripsService = businessTripsService;
         this.licenseCategoryService = licenseCategoryService;
         this.informationService = informationService;
+        this.educationTypeService = educationTypeService;
+        this.citizenshipTypeService = citizenshipTypeService;
+        this.specificationService = specificationService;
+        this.genderServer = genderServer;
     }
 
     public void writeDataBase(Map<String, List<String>> resume) {
-        newInformation(resume);
+        //тестирование
+        //addCitizenshipTypes(resume);
+        //addSpecification(resume);
+        //addGender(resume);
+        //newInformation(resume);
     }
 
+    //Гендер
+    private Gender addGender(Map<String, List<String>> resume) {
+        if (resume.get("Пол") == null) {
+            return null;
+        }
+
+        String type = resume.get("Пол").get(0);
+
+        Gender gender = genderServer.find(type);
+
+        if (gender == null) {
+            gender = new Gender(type);
+            genderServer.save(gender);
+        }
+
+        return gender;
+    }
+
+    //Тип гражданства
+    private List<CitizenshipType> addCitizenshipTypes(Map<String, List<String>> resume) {
+        List<String> citizenshipList = resume.get("Гражданство");
+
+        if (citizenshipList == null) {
+            return null;
+        }
+
+        String citizenship = citizenshipList.get(0);
+
+        String[] elements = citizenship.split("/");
+        List<CitizenshipType> citizenshipTypeList = new ArrayList<>(elements.length);
+
+        for (String element : elements) {
+            CitizenshipType citizenshipType = citizenshipTypeService.find(element);
+
+            if (citizenshipType == null) {
+                citizenshipType = new CitizenshipType(element);
+                citizenshipTypeService.save(citizenshipType);
+            }
+
+            citizenshipTypeList.add(citizenshipType);
+        }
+
+        return citizenshipTypeList;
+    }
+
+    //Спецификация
+    private List<Specification> addSpecification(Map<String, List<String>> resume) {
+        List<String> educationTypesString = resume.get("Образование");
+
+        if (educationTypesString == null) {
+            return null;
+        }
+
+        List<EducationType> educationTypeList = new ArrayList<>(educationTypesString.size());
+
+        //С еденицы начинается потому, что мы не будем учитывать первую строчку при описании резюме
+        for (int i = 1; i < educationTypesString.size(); i++) {
+            String educationLevel = educationTypesString.get(i);
+            EducationType educationType = educationTypeService.find(educationLevel);
+
+            if (educationType == null) {
+                educationType = new EducationType(educationLevel);
+                educationTypeService.save(educationType);
+            }
+
+            educationTypeList.add(educationType);
+        }
+
+        List<String> endings = resume.get("Окончание");
+        List<String> educationalInstitutions = resume.get("Учебное заведение");
+        List<String> directions = resume.get("Специальность");
+
+        Pattern pattern = Pattern.compile("\\b\\d+\\b");
+
+        List<Specification> specifications = new ArrayList<>();
+
+        for (int i = 0; i < educationTypeList.size(); i++) {
+            String ending = endings.get(i);
+            String educationalInstitution = educationalInstitutions.get(i);
+            String direction = directions.get(i);
+            EducationType educationType = educationTypeList.get(i);
+
+            Matcher matcher = pattern.matcher(ending);
+            int year = 0;
+
+            if (matcher.find()) {
+                String yearString = matcher.group();
+
+                // Преобразование строки в число (год)
+                year = Integer.parseInt(yearString);
+            }
+
+            Specification specification = specificationService.find(year, educationalInstitution, direction, educationType.getId());
+
+            if (specification == null) {
+                specification = new Specification(year, educationalInstitution, direction, educationType);
+                specificationService.save(specification);
+            }
+
+            specifications.add(specification);
+        }
+
+        return specifications;
+    }
+
+    // Работа шла над дополнительной информацией
     private Information newInformation(Map<String, List<String>> resume) {
         Information information = addInformation(resume);
 
@@ -89,8 +211,6 @@ public class DataWriter {
         }
 
         informationService.save(information);
-
-        System.out.println(information);
 
         return information;
     }

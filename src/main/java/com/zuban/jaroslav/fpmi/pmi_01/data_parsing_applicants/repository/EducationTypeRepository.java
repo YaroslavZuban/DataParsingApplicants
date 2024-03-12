@@ -6,4 +6,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface EducationTypeRepository extends JpaRepository<EducationType, Integer> {
+    EducationType findByEducationLevel(String educationLevel);
+
+    boolean existsByEducationLevel(String educationLevel);
 }
