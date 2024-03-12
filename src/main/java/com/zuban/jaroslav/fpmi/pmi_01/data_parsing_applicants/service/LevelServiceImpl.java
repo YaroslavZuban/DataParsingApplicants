@@ -17,7 +17,7 @@ public class LevelServiceImpl implements LevelService {
 
     @Override
     public void save(Level level) {
-        if (!levelRepository.existsByKnowledgeLevel(level.getKnowledgeLevel())) {
+        if (levelRepository.existsByKnowledgeLevel(level.getKnowledgeLevel())) {
             return;
         }
 

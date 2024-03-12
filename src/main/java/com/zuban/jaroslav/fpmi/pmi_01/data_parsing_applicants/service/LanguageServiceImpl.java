@@ -16,7 +16,7 @@ public class LanguageServiceImpl implements LanguageService {
 
     @Override
     public void save(Language newLanguage) {
-        if (!languageRepository.existsByName(newLanguage.getName())) {
+        if (languageRepository.existsByName(newLanguage.getName())) {
             return;
         }
 

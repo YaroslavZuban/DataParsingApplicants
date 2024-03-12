@@ -15,19 +15,22 @@ import java.io.IOException;
 public class ApplicantsIdParser {
     private final String URL = "https://joblab.ru/search.php?r=res&srregion=100&page=";
     private final String key = "&submit=1";
-    private final PersonDataService personDataService;
-    private final ResumeParsing resumeParsing = new ResumeParsing();
+    private final ResumeParsing resumeParsing;
     Boolean is = true;
 
     @Autowired
-    public ApplicantsIdParser(PersonDataService personDataService) {
-        this.personDataService = personDataService;
+    public ApplicantsIdParser(ResumeParsing resumeParsing) {
+        this.resumeParsing = resumeParsing;
     }
 
     @Scheduled(fixedDelay = 1000)
-    public void parser() {
+    public void parser() throws InterruptedException {
         final int pagesCount = 168; // количество страниц на сайте пока просто поставлю 2 чтобы легче можно было работать и провести тест
+        resumeParsing.parser("3305832");
 
+        Thread.sleep(100000);
+
+        /*
         for (int i = 1; i < 2; i++) {
             try {
                 Document document = Jsoup.connect(URL + i + key)
@@ -41,9 +44,11 @@ public class ApplicantsIdParser {
                 for (Element element : linkApplicants) {
                     resumeParsing.parser(element.attr("href"));// возвращается ссылка на резюме
                 }
-            } catch (IOException e) {
+
+                Thread.sleep(10000);
+            } catch (IOException | InterruptedException e) {
                 throw new RuntimeException(e);
             }
-        }
+        }*/
     }
 }

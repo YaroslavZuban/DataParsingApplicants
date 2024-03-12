@@ -7,10 +7,11 @@ import lombok.Setter;
 @Entity
 @Getter
 @Setter
-@Table(name = "business_trip")
+@Table(name = "business_trips")
 public class BusinessTrips {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "business_trips_seq")
+    @SequenceGenerator(name = "business_trips_seq", sequenceName = "business_trips_seq", allocationSize = 1)
     private long id;
 
     @Column(name = "readiness")

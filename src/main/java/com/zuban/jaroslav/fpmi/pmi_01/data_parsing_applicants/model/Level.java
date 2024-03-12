@@ -10,14 +10,12 @@ import lombok.Setter;
 @Table(name = "level")
 public class Level {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "language_seq")
+    @SequenceGenerator(name = "language_seq", sequenceName = "language_seq", allocationSize = 1)
     private int id;
 
     @Column(name = "knowledge_level")
     private String knowledgeLevel;
-
-    @ManyToOne
-    private Information information;
 
     public Level() {
     }

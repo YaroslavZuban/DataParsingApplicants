@@ -1,10 +1,15 @@
 package com.zuban.jaroslav.fpmi.pmi_01.data_parsing_applicants.job;
 
 import lombok.Getter;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.*;
 
+@Service
 public class Container {
+    @Autowired
+    DataWriter dataWriter;
     private final String[] categories = {"Имя", "Проживание", "Заработная плата", "График работы", "Образование",
             "Опыт работы", "Гражданство", "Пол", "Возраст", "Должность", "Компания", "Обязанности",
             "Образование", "Окончание", "Учебное заведение", "Специальность", "Командировки", "Навыки и умения",
@@ -31,7 +36,12 @@ public class Container {
             }
         }
 
-        DataWriter dataWriter = new DataWriter();
+        System.out.println("Key: " + key);
+        System.out.println("Value: " + value);
+        System.out.println("-----------------------------------");
+    }
+
+    public void save() {
         dataWriter.writeDataBase(resume);
     }
 

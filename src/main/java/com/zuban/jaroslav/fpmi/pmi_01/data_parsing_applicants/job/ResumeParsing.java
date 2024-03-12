@@ -8,18 +8,26 @@ import org.jsoup.select.Elements;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 
 @Component
 public class ResumeParsing {
-    private final Container container = new Container();
+
+    private final Container container;
+
+    @Autowired
+    public ResumeParsing(Container container) {
+        this.container = container;
+    }
+
 
     public void parser(String link) {
         try {
             String url = "https://joblab.ru";
 
-            Document document = Jsoup.connect(url + link)
+            Document document = Jsoup.connect(url + "/res3305832.html")
                     .userAgent("Chrome")
                     .timeout(5000)
                     .referrer("https://google.com")
@@ -51,6 +59,7 @@ public class ResumeParsing {
                 }
             }
 
+            container.save();
             container.clearResume();
         } catch (IOException e) {
             throw new RuntimeException(e);

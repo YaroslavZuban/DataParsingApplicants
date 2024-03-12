@@ -16,7 +16,7 @@ public class LicenseCategoryServiceImpl implements LicenseCategoryService {
 
     @Override
     public void save(LicenceCategory newLicenceCategory) {
-        if (!licenceCategoryRepository.existsByCategory(newLicenceCategory.getCategory())) {
+        if (licenceCategoryRepository.existsByCategory(newLicenceCategory.getCategory())) {
             return;
         }
 

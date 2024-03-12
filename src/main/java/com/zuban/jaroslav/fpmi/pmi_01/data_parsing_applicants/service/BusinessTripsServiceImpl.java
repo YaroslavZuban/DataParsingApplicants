@@ -5,6 +5,8 @@ import com.zuban.jaroslav.fpmi.pmi_01.data_parsing_applicants.repository.Busines
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class BusinessTripsServiceImpl implements BusinessTripsService {
     private final BusinessTripsRepository businessTripsRepository;
@@ -16,7 +18,7 @@ public class BusinessTripsServiceImpl implements BusinessTripsService {
 
     @Override
     public void save(BusinessTrips newBusinessTrips) {
-        if (!businessTripsRepository.existsByReadiness(newBusinessTrips.getReadiness())) {
+        if (businessTripsRepository.existsByReadiness(newBusinessTrips.getReadiness())) {
             return;
         }
 

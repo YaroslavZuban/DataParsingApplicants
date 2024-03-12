@@ -3,16 +3,19 @@ package com.zuban.jaroslav.fpmi.pmi_01.data_parsing_applicants.model;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 import java.util.List;
 
 @Entity
 @Getter
 @Setter
+@ToString
 @Table(name = "add_information")
 public class Information {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "add_information_seq")
+    @SequenceGenerator(name = "add_information_seq", sequenceName = "add_information_seq", allocationSize = 1)
     private int id;
 
     @Column(name = "courses_and_trainings")

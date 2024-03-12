@@ -10,14 +10,12 @@ import lombok.Setter;
 @Table(name = "licence_category")
 public class LicenceCategory {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "licence_category_seq")
+    @SequenceGenerator(name = "licence_category_seq", sequenceName = "licence_category_seq", allocationSize = 1)
     private int id;
 
     @Column(name = "category")
     private String category;
-
-    @ManyToOne
-    private Information information;
 
     public LicenceCategory() {
     }
