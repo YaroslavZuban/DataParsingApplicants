@@ -196,7 +196,7 @@ CREATE TABLE personal_data
     gender_id          INTEGER REFERENCES gender (id),
     birth_data         VARCHAR,
     add_information_id INTEGER REFERENCES add_information (id),
-    wages              VARCHAR
+    wages INTEGER
 );
 
 COMMENT ON TABLE personal_data IS 'Личные данные';
@@ -271,16 +271,16 @@ COMMENT ON COLUMN education.specification_id IS 'Спецификация ID';
 
 CREATE SEQUENCE education_seq;
 ---------------------------------------------------
+CREATE SEQUENCE citizenship_seq;
+
 CREATE TABLE citizenship
 (
-    id                  INTEGER PRIMARY KEY,
-    personal_data_id    INTEGER REFERENCES personal_data (id),
+    id             INTEGER PRIMARY KEY DEFAULT nextval('citizenship_seq'),
+    person_data_id INTEGER REFERENCES personal_data (id),
     citizenship_type_id INTEGER REFERENCES citizenship_type (id)
 );
 
 COMMENT ON TABLE citizenship IS 'Гражданство';
 COMMENT ON COLUMN citizenship.id IS 'ID';
-COMMENT ON COLUMN citizenship.personal_data_id IS 'Персональные данные ID';
+COMMENT ON COLUMN citizenship.person_data_id IS 'Персональные данные ID';
 COMMENT ON COLUMN citizenship.citizenship_type_id IS 'Тип гражданства ID';
-
-CREATE SEQUENCE citizenship_seq;
