@@ -14,6 +14,7 @@ public class EmployeesExperience {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "employees_experience_seq")
     @SequenceGenerator(name = "employees_experience_seq", sequenceName = "employees_experience_seq", allocationSize = 1)
+    @Column(name = "id")
     private int id;
 
     @Column(name = "post")
@@ -29,7 +30,7 @@ public class EmployeesExperience {
     @JoinTable(
             name = "work",
             joinColumns = @JoinColumn(name = "employees_experience_id "),
-            inverseJoinColumns = @JoinColumn(name = "personal_data_id"))
+            inverseJoinColumns = @JoinColumn(name = "person_data_id"))
     private List<PersonalData> personalDataList;
 
     public EmployeesExperience() {

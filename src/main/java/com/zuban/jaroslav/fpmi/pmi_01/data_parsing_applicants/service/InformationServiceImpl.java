@@ -37,7 +37,13 @@ public class InformationServiceImpl implements InformationService {
 
     @Override
     public boolean isExist(Information information) {
-        return false;
+        return informationRepository.
+                existsByCoursesAndSkillsAndAboutMeAndBusinessTrips(
+                        information.getCourses(),
+                        information.getSkills(),
+                        information.getAboutMe(),
+                        information.getBusinessTrips()
+                );
     }
 
     public Information processInformation(Map<String, List<String>> resume) {
@@ -88,7 +94,6 @@ public class InformationServiceImpl implements InformationService {
         information.setBusinessTrips(businessTrips);
 
         if (businessTrips != null) {
-            businessTrips.setInformation(information);
             businessTripsService.save(businessTrips);
         }
 

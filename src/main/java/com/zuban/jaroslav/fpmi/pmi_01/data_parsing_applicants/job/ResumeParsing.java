@@ -27,7 +27,7 @@ public class ResumeParsing {
         try {
             String url = "https://joblab.ru";
 
-            Document document = Jsoup.connect(url + "/res3305832.html")
+            Document document = Jsoup.connect(url + link)
                     .userAgent("Chrome")
                     .timeout(5000)
                     .referrer("https://google.com")

@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.Date;
+import java.sql.Date;
 import java.util.List;
 
 @Entity
@@ -15,6 +15,7 @@ public class PersonalData {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "personal_data_seq")
     @SequenceGenerator(name = "personal_data_seq", sequenceName = "personal_data_seq", allocationSize = 1)
+    @Column(name = "id")
     private int id;
 
     @Column(name = "name")
@@ -24,13 +25,13 @@ public class PersonalData {
     private String title;
 
     @Column(name = "wages")
-    private String wages;
+    private Integer wages;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "habitation_id", referencedColumnName = "id")
     private Habitation habitation;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "gender_id", referencedColumnName = "id")
     private Gender gender;
 
@@ -38,7 +39,7 @@ public class PersonalData {
     @Temporal(TemporalType.DATE)
     private Date birthData;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "add_information_id", referencedColumnName = "id")
     private Information information;
 
@@ -47,23 +48,29 @@ public class PersonalData {
 
     @ManyToMany
     @JoinTable(name = "employment_type",
-            joinColumns = @JoinColumn(name = "personal_data_id"),
+            joinColumns = @JoinColumn(name = "person_data_id"),
             inverseJoinColumns = @JoinColumn(name = "work_schedule_id"))
     private List<WorkSchedule> workSchedule;
 
     @ManyToMany
-    @JoinTable(name = "educatio",
-            joinColumns = @JoinColumn(name = "personal_data_id"),
+    @JoinTable(name = "education",
+            joinColumns = @JoinColumn(name = "person_data_id"),
             inverseJoinColumns = @JoinColumn(name = "specification_id"))
     private List<Specification> specifications;
 
     @ManyToMany
     @JoinTable(name = "citizenship",
-            joinColumns = @JoinColumn(name = "personal_data_id"),
+            joinColumns = @JoinColumn(name = "person_data_id"),
             inverseJoinColumns = @JoinColumn(name = "citizenship_type_id"))
     private List<CitizenshipType> citizenshipType;
 
     public PersonalData() {
     }
 
+    public PersonalData(String name, String title, Integer wages, Date birthData) {
+        this.name = name;
+        this.title = title;
+        this.wages = wages;
+        this.birthData = birthData;
+    }
 }

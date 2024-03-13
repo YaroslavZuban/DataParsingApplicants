@@ -14,6 +14,7 @@ public class CitizenshipType {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "citizenship_type_seq")
     @SequenceGenerator(name = "citizenship_type_seq", sequenceName = "citizenship_type_seq", allocationSize = 1)
+    @Column(name = "id")
     private int id;
 
     @Column(name = "name")

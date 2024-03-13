@@ -13,25 +13,27 @@ import java.io.IOException;
 
 @Component
 public class ApplicantsIdParser {
-    private final String URL = "https://joblab.ru/search.php?r=res&srregion=100&page=";
-    private final String key = "&submit=1";
+    private final static int SECOND = 1000;
+    private final static int MINUTE = 60 * SECOND;
     private final ResumeParsing resumeParsing;
-    Boolean is = true;
+    private static String firstResume = null;
 
     @Autowired
     public ApplicantsIdParser(ResumeParsing resumeParsing) {
         this.resumeParsing = resumeParsing;
     }
 
-    @Scheduled(fixedDelay = 1000)
+    @Scheduled(fixedDelay = 5 * MINUTE)
     public void parser() throws InterruptedException {
         final int pagesCount = 168; // количество страниц на сайте пока просто поставлю 2 чтобы легче можно было работать и провести тест
-        resumeParsing.parser("3305832");
+        final String URL = "https://joblab.ru/search.php?r=res&srregion=100&page=";
+        final String key = "&submit=1";
 
-        Thread.sleep(100000);
+        boolean isRestart = true;
+        String firstResumeRestart = null;
 
-        /*
-        for (int i = 1; i < 2; i++) {
+        outerLoop:
+        for (int i = 1; i < pagesCount; i++) {
             try {
                 Document document = Jsoup.connect(URL + i + key)
                         .userAgent("Chrome")
@@ -42,13 +44,28 @@ public class ApplicantsIdParser {
                 Elements linkApplicants = document.select("p.prof a");
 
                 for (Element element : linkApplicants) {
-                    resumeParsing.parser(element.attr("href"));// возвращается ссылка на резюме
+                    String resume = element.attr("href");// возвращается ссылка на резюме
+
+                    if (isRestart) {
+                        firstResumeRestart = resume;
+                        isRestart = false;
+                    }
+
+                    if (firstResume != null && firstResume.equals(resume)) {
+                        firstResume = firstResumeRestart;
+                        break outerLoop;
+                    }
+
+                    resumeParsing.parser(resume);
+
+                    if (firstResume == null) {
+                        firstResume = resume;
+                    }
                 }
 
-                Thread.sleep(10000);
-            } catch (IOException | InterruptedException e) {
+            } catch (IOException e) {
                 throw new RuntimeException(e);
             }
-        }*/
+        }
     }
 }

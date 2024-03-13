@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.List;
+
 @Entity
 @Getter
 @Setter
@@ -12,13 +14,14 @@ public class Gender {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "gender_seq")
     @SequenceGenerator(name = "gender_seq", sequenceName = "gender_seq", allocationSize = 1)
+    @Column(name = "id")
     private int id;
 
     @Column(name = "type")
     private String type;
 
-    @OneToOne(mappedBy = "gender")
-    private PersonalData personalData;
+    @OneToMany(mappedBy = "gender")
+    private List<PersonalData> personalDataList;
 
     public Gender() {
     }

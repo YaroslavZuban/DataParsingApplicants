@@ -55,9 +55,23 @@ public class EmployeesExperienceServiceImpl implements EmployeesExperienceServic
         List<EmployeesExperience> experienceList = new ArrayList<>(postList.size());
 
         for (int i = 0; i < postList.size(); i++) {
-            String post = postList.get(i);
-            String responsibilities = responsibilitiesList.get(i);
-            String company = companyList.get(i);
+            String post = null;
+
+            if (postList.get(i) != null) {
+                post = postList.get(i);
+            }
+
+            String responsibilities = null;
+
+            if (responsibilitiesList != null && i < responsibilitiesList.size() && responsibilitiesList.get(i) != null) {
+                responsibilities = responsibilitiesList.get(i);
+            }
+
+            String company = null;
+
+            if (companyList != null && i < companyList.size() && companyList.get(i) != null) {
+                company = companyList.get(i);
+            }
 
             EmployeesExperience employeesExperience = find(post, responsibilities, company);
 

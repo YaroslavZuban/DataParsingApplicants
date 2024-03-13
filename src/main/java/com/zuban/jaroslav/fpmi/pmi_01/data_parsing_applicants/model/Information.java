@@ -16,6 +16,7 @@ public class Information {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "add_information_seq")
     @SequenceGenerator(name = "add_information_seq", sequenceName = "add_information_seq", allocationSize = 1)
+    @Column(name = "id")
     private int id;
 
     @Column(name = "courses_and_trainings")
@@ -40,7 +41,7 @@ public class Information {
             inverseJoinColumns = @JoinColumn(name = "level_id"))
     private List<Level> levels;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "business_trips_id", referencedColumnName = "id")
     private BusinessTrips businessTrips;
 
@@ -50,8 +51,8 @@ public class Information {
             inverseJoinColumns = @JoinColumn(name = "license_category_id"))
     private List<LicenceCategory> categoryList;
 
-    @OneToOne(mappedBy = "information")
-    private PersonalData personalData;
+    @OneToMany(mappedBy = "information")
+    private List<PersonalData> personalDataList;
 
     public Information() {
     }

@@ -54,8 +54,8 @@ public class LevelServiceImpl implements LevelService {
                 levels = new ArrayList<>();
             }
 
-            int startIndex = line.indexOf("(") + 1;
-            int endIndex = line.indexOf(")");
+            int startIndex = levelLine.indexOf("(") + 1;
+            int endIndex = levelLine.indexOf(")");
 
             levelLine = levelLine.substring(startIndex, endIndex);
 

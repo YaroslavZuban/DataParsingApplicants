@@ -17,6 +17,7 @@ public class Specification {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "specification_seq")
     @SequenceGenerator(name = "specification_seq", sequenceName = "specification_seq", allocationSize = 1)
+    @Column(name = "id")
     private int id;
 
     @Column(name = "ending")
@@ -28,7 +29,7 @@ public class Specification {
     @Column(name = "direction")
     private String direction;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "education_type_id", referencedColumnName = "id")
     private EducationType educationType;
 
