@@ -42,7 +42,10 @@ public class LicenseCategoryServiceImpl implements LicenseCategoryService {
             return null;
         }
 
-        String cleanCategory = line.replace("Категория ", "").replace(" ", "");
+        String cleanCategory = line.
+                toUpperCase().
+                substring(line.indexOf(" ") + 1, line.length()).
+                replace(" ", "");
 
         String[] arrayCategory = cleanCategory.split(",");
 

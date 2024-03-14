@@ -56,8 +56,13 @@ public class ResumeParsing {
                             String category = categoryElement.text();
                             StringBuilder values = new StringBuilder();
 
-                            for (Element valueElement : valueElements) {
-                                values.append(valueElement.text()).append(System.lineSeparator());
+                            for (int i = 0; i < valueElements.size(); i++) {
+                                Element valueElement = valueElements.get(i);
+                                values.append(valueElement.text());
+
+                                if (i + 1 != valueElements.size()) {
+                                    valueElement.append(System.lineSeparator());
+                                }
                             }
 
                             container.completionResume(category, String.valueOf(values));

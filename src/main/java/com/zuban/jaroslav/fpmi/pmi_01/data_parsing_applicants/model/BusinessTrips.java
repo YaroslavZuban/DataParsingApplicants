@@ -17,7 +17,7 @@ public class BusinessTrips {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "business_trips_seq")
     @SequenceGenerator(name = "business_trips_seq", sequenceName = "business_trips_seq", allocationSize = 1)
     @Column(name = "id")
-    private long id;
+    private int id;
 
     @Column(name = "readiness")
     private String readiness;

@@ -38,11 +38,11 @@ public class InformationServiceImpl implements InformationService {
     @Override
     public boolean isExist(Information information) {
         return informationRepository.
-                existsByCoursesAndSkillsAndAboutMeAndBusinessTrips(
+                existsByInformation(
                         information.getCourses(),
                         information.getSkills(),
                         information.getAboutMe(),
-                        information.getBusinessTrips()
+                        information.getBusinessTrips().getId()
                 );
     }
 

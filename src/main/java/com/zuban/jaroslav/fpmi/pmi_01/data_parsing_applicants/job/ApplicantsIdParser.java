@@ -25,7 +25,7 @@ public class ApplicantsIdParser {
 
     @Scheduled(fixedDelay = 5 * MINUTE)
     public void parser() throws InterruptedException {
-        final int pagesCount = 167; // количество страниц на сайте пока просто поставлю 2 чтобы легче можно было работать и провести тест
+        final int pagesCount = 166; // количество страниц на сайте пока просто поставлю 2 чтобы легче можно было работать и провести тест
         final String URL = "https://joblab.ru/search.php?r=res&srregion=100&page=";
         final String key = "&submit=1";
 
@@ -65,8 +65,6 @@ public class ApplicantsIdParser {
                 }
 
             } catch (IOException e) {
-                throw new RuntimeException(e);
-            } finally {
                 firstResumeRestart = resume;
             }
         }
