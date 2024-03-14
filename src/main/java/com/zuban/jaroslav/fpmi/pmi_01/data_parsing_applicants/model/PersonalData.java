@@ -43,7 +43,10 @@ public class PersonalData {
     @JoinColumn(name = "add_information_id", referencedColumnName = "id")
     private Information information;
 
-    @ManyToMany(mappedBy = "personalDataList")
+    @ManyToMany
+    @JoinTable(name = "work",
+            joinColumns = @JoinColumn(name = "person_data_id"),
+            inverseJoinColumns = @JoinColumn(name = "employees_experience_id"))
     private List<EmployeesExperience> experienceList;
 
     @ManyToMany

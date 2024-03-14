@@ -26,11 +26,7 @@ public class EmployeesExperience {
     @Column(name = "company")
     private String company;
 
-    @ManyToMany
-    @JoinTable(
-            name = "work",
-            joinColumns = @JoinColumn(name = "employees_experience_id "),
-            inverseJoinColumns = @JoinColumn(name = "person_data_id"))
+    @ManyToMany(mappedBy = "experienceList")
     private List<PersonalData> personalDataList;
 
     public EmployeesExperience() {
