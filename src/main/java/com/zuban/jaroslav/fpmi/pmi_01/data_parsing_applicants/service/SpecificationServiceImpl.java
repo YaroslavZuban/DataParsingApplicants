@@ -62,19 +62,36 @@ public class SpecificationServiceImpl implements SpecificationService {
         List<Specification> specifications = new ArrayList<>();
 
         for (int i = 0; i < educationTypeList.size(); i++) {
-            String ending = endings.get(i);
-            String educationalInstitution = educationalInstitutions.get(i);
-            String direction = directions.get(i);
+            String ending = null;
+
+            if (endings != null && i < endings.size()) {
+                ending = endings.get(i);
+            }
+
+            String educationalInstitution = null;
+
+            if (educationalInstitutions != null && i < educationalInstitutions.size()) {
+                educationalInstitution = educationalInstitutions.get(i);
+            }
+
+            String direction = null;
+
+            if (directions != null && i < directions.size()) {
+                direction = directions.get(i);
+            }
+
             EducationType educationType = educationTypeList.get(i);
 
-            Matcher matcher = pattern.matcher(ending);
             int year = 0;
 
-            if (matcher.find()) {
-                String yearString = matcher.group();
+            if (ending != null) {
+                Matcher matcher = pattern.matcher(ending);
 
-                // Преобразование строки в число (год)
-                year = Integer.parseInt(yearString);
+                if (matcher.find()) {
+                    String yearString = matcher.group();
+
+                    year = Integer.parseInt(yearString); // Преобразование строки в число (год)
+                }
             }
 
             Specification specification = find(year, educationalInstitution, direction, educationType.getId());

@@ -31,6 +31,7 @@ public class ApplicantsIdParser {
 
         boolean isRestart = true;
         String firstResumeRestart = null;
+        String resume = null;
 
         outerLoop:
         for (int i = 1; i < pagesCount; i++) {
@@ -44,7 +45,7 @@ public class ApplicantsIdParser {
                 Elements linkApplicants = document.select("p.prof a");
 
                 for (Element element : linkApplicants) {
-                    String resume = element.attr("href");// возвращается ссылка на резюме
+                    resume = element.attr("href");// возвращается ссылка на резюме
 
                     if (isRestart) {
                         firstResumeRestart = resume;
@@ -65,6 +66,8 @@ public class ApplicantsIdParser {
 
             } catch (IOException e) {
                 throw new RuntimeException(e);
+            } finally {
+                firstResumeRestart = resume;
             }
         }
     }
