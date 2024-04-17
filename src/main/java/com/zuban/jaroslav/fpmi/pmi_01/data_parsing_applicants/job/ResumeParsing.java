@@ -61,7 +61,7 @@ public class ResumeParsing {
                                 values.append(valueElement.text());
 
                                 if (i + 1 != valueElements.size()) {
-                                    valueElement.append(System.lineSeparator());
+                                    valueElement.append("\n");
                                 }
                             }
 

@@ -57,7 +57,7 @@ public class LanguageServiceImpl implements LanguageService {
 
             Language language = findLanguage(languageLine);
 
-            if (language == null) {
+            if (language == null && !languageLine.isEmpty()) {
                 language = new Language(languageLine);
                 save(language);
             }
